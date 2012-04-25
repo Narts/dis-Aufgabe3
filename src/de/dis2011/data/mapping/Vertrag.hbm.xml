@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="de.dis2011.data.Vertrag" table = "VERTRAG" >  <!-- nicht abstrakt bei unsere Datenbank -->
+		<id name="vertragsnummer" column="vertragnr">
+			<generator class="native" />
+		</id>
+	    <property name="personId" type="integer" column="perid" />
+	    <property name="immobId" type="integer" column="immobId" />
+		<property name="datum" type="Date" column="datum" />  <!-- hibernate Date type -->
+		<property name="ort" type="string" column="ort" />
+		
+		<one-to-one name="personId" class="de.dis2011.data.Person" column="personId" />
+		<one-to-one name="immobId" class="de.dis2011.data.Immobilie" column="immobId" />
+		
+		
+		<joined-subclass name="de.dis2011.data.Haus" table="Haus">    <!-- haeuser zu Haus geandert --> 
+			<key column="hausID"/>
+			<property name="stockwerke" type="integer" column="stockwerk" />
+			<property name="kaufpreis" type="integer" column="kaufpreis" />
+			<property name="garten" type="boolean" column="garten" />
+		</joined-subclass>
+		
+		<joined-subclass name="de.dis2011.data.Wohnung" table="Wohnung">  
+			<key column="wohnungID"/>
+			<property name="stockwerk" type="integer" column="stockwerk" />
+			<property name="mietpreis" type="integer" column="mietpreis" />
+			<property name="zimmer" type="integer" column="zimmer" />
+			<property name="balkon" type="boolean" column="balkon" />
+			<property name="ebk" type="boolean" column="ebk" />
+		</joined-subclass>
+	</class>
+</hibernate-mapping>
