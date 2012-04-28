@@ -151,6 +151,7 @@ public class ImmobilienEditor {
 				h.setKaufpreis(newKaufpreis);
 			
 			h.setGarten(newGarten);
+			service.updateHaus(h);
 		}
 	}
 	
@@ -186,6 +187,7 @@ public class ImmobilienEditor {
 		w.setFlaeche(FormUtil.readInt("Fläche"));
 		w.setStockwerk(FormUtil.readInt("Stockwerk"));
 		w.setMietpreis(FormUtil.readInt("Mietpreis"));
+		w.setZimmer(FormUtil.readInt("Zimmer Anzahl"));
 		w.setEbk(FormUtil.readBoolean("EBK"));
 		w.setBalkon(FormUtil.readBoolean("Balkon"));
 		w.setVerwalter(this.verwalter);
@@ -220,6 +222,7 @@ public class ImmobilienEditor {
 			int newFlaeche = FormUtil.readInt("Fläche ("+w.getFlaeche()+")");
 			int newStockwerk = FormUtil.readInt("Stockwerk ("+w.getStockwerk()+")");
 			int newMietpreis = FormUtil.readInt("Mietpreis ("+w.getMietpreis()+")");
+			int newZimmer = FormUtil.readInt("Zimmer ("+w.getZimmer()+")");
 			boolean newEbk = FormUtil.readBoolean("EBK ("+(w.isEbk() ? "j" : "n")+")");
 			boolean newBalkon = FormUtil.readBoolean("Balkon ("+(w.isBalkon() ? "j" : "n")+")");
 			
@@ -245,8 +248,12 @@ public class ImmobilienEditor {
 			if(newMietpreis != 0)
 				w.setMietpreis(newMietpreis);
 			
+			if(newZimmer != 0)
+				w.setZimmer(newZimmer);
+			
 			w.setEbk(newEbk);
 			w.setBalkon(newBalkon);
+			service.updateWohnung(w);
 		}
 	}
 	

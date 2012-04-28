@@ -77,12 +77,13 @@ public class VertragsEditor {
 		Iterator<Mietvertrag> itmv = mvs.iterator();
 		while(itmv.hasNext()) {
 			Mietvertrag mv = itmv.next();
+			Wohnung whng = service.getWohnungById(mv.getImmobId());
 			System.out.println("Mietvertrag "+mv.getVertragsnummer()+"\n"+
 							"\tGeschlossen am "+Helper.dateToString(mv.getDatum())+" in "+mv.getOrt()+"\n"+
-							"\tMieter:        "+mv.getVertragspartner().getVorname()+" "+mv.getVertragspartner().getNachname()+"\n"+
-							"\tWohnung:       "+mv.getWohnung().getStrasse()+" "+mv.getWohnung().getHausnummer()+", "+mv.getWohnung().getPlz()+" "+mv.getWohnung().getOrt()+"\n"+
+							"\tMieter:        "+service.getPersonById(mv.getPersonId()).getVorname()+" "+service.getPersonById(mv.getPersonId()).getNachname()+"\n"+
+							"\tWohnung:       "+whng.getStrasse()+" "+whng.getHausnummer()+", "+whng.getPlz()+" "+whng.getOrt()+"\n"+
 							"\tMietbeginn:    "+Helper.dateToString(mv.getMietbeginn())+", Dauer: "+mv.getDauer()+" Monate\n"+
-							"\tMietpreis:     "+mv.getWohnung().getMietpreis()+" Euro, Nebenkosten: "+mv.getNebenkosten()+" Euro\n");
+							"\tMietpreis:     "+whng.getMietpreis()+" Euro, Nebenkosten: "+mv.getNebenkosten()+" Euro\n");
 		}
 		
 		System.out.println("");
@@ -95,9 +96,9 @@ public class VertragsEditor {
 			Kaufvertrag kv = itkv.next();
 			System.out.println("Kaufvertrag "+kv.getVertragsnummer()+"\n"+
 							"\tGeschlossen am "+Helper.dateToString(kv.getDatum())+" in "+kv.getOrt()+"\n"+
-							"\tMieter:        "+kv.getVertragspartner().getVorname()+" "+kv.getVertragspartner().getNachname()+"\n"+
-							"\tHaus:          "+kv.getHaus().getStrasse()+" "+kv.getHaus().getHausnummer()+", "+kv.getHaus().getPlz()+" "+kv.getHaus().getOrt()+"\n"+
-							"\tKaufpreis:     "+kv.getHaus().getKaufpreis()+" Euro\n"+
+							"\tMieter:        "+service.getPersonById(kv.getPersonId()).getVorname()+" "+service.getPersonById(kv.getPersonId()).getNachname()+"\n"+
+							"\tHaus:          "+service.getHausById(kv.getImmobId()).getStrasse()+" "+service.getHausById(kv.getImmobId()).getHausnummer()+", "+service.getHausById(kv.getImmobId()).getPlz()+" "+service.getHausById(kv.getImmobId()).getOrt()+"\n"+
+							"\tKaufpreis:     "+service.getHausById(kv.getImmobId()).getKaufpreis()+" Euro\n"+
 							"\tRaten:         "+kv.getAnzahlRaten()+", Ratenzins: "+kv.getRatenzins()+"%\n");
 		}
 	}
@@ -125,20 +126,24 @@ public class VertragsEditor {
 			
 			//Falls kein Abbruch: Vertragsdaten abfragen und Vertrag anlegen
 			if(pid != PersonSelectionMenu.BACK) {
-				Mietvertrag m = new Mietvertrag();
-		
-				m.setWohnung(service.getWohnungById(wid));
-				m.setVertragspartner(service.getPersonById(pid));
-				m.setVertragsnummer(FormUtil.readInt("Vertragsnummer"));
-				m.setDatum(FormUtil.readDate("Datum"));
-				m.setOrt(FormUtil.readString("Ort"));
-				m.setMietbeginn(FormUtil.readDate("Mietbeginn"));
-				m.setDauer(FormUtil.readInt("Dauer in Monaten"));
-				m.setNebenkosten(FormUtil.readInt("Nebenkosten"));
+				Set<Integer> immobIdSet =  service.getImmobIdInAllVertraege();
+				if (immobIdSet.contains((Integer)wid)) {
+					System.out.println("Diese Wohnung ist schon gemietet");
+				}else{
+					Mietvertrag m = new Mietvertrag();
+			        m.setImmobId(wid);
+					m.setPersonId(pid);
+					m.setDatum(FormUtil.readDate("Datum"));
+					m.setOrt(FormUtil.readString("Ort"));
+					m.setMietbeginn(FormUtil.readDate("Mietbeginn"));
+					m.setDauer(FormUtil.readInt("Dauer in Monaten"));
+					m.setNebenkosten(FormUtil.readInt("Nebenkosten"));
+					
+					service.addMietvertrag(m);
+					
+					System.out.println("Mietvertrag mit der ID "+m.getVertragsnummer()+" wurde erzeugt.");
+				}
 				
-				service.addMietvertrag(m);
-				
-				System.out.println("Mietvertrag mit der ID "+m.getId()+" wurde erzeugt.");
 			}
 		}
 	}
@@ -165,19 +170,23 @@ public class VertragsEditor {
 			
 			//Falls kein Abbruch: Vertragsdaten abfragen und Vertrag anlegen
 			if(pid != PersonSelectionMenu.BACK) {
-				Kaufvertrag k = new Kaufvertrag();
-		
-				k.setHaus(service.getHausById(hid));
-				k.setVertragspartner(service.getPersonById(pid));
-				k.setVertragsnummer(FormUtil.readInt("Vertragsnummer"));
-				k.setDatum(FormUtil.readDate("Datum"));
-				k.setOrt(FormUtil.readString("Ort"));
-				k.setAnzahlRaten(FormUtil.readInt("Anzahl Raten"));
-				k.setRatenzins(FormUtil.readInt("Ratenzins"));
+				Set<Integer> immobIdSet =  service.getImmobIdInAllVertraege();
+				if (immobIdSet.contains((Integer)hid)) {
+					System.out.println("Dieses Haus ist schon gekauft");
+				}else{
+					Kaufvertrag k = new Kaufvertrag();
+					k.setImmobId(hid);
+					k.setPersonId(pid);
+					k.setDatum(FormUtil.readDate("Datum"));
+					k.setOrt(FormUtil.readString("Ort"));
+					k.setAnzahlRaten(FormUtil.readInt("Anzahl Raten"));
+					k.setRatenzins(FormUtil.readInt("Ratenzins"));
+					
+					service.addKaufvertrag(k);
+					
+					System.out.println("Kaufvertrag mit der ID "+k.getVertragsnummer()+" wurde erzeugt.");
+				}
 				
-				service.addKaufvertrag(k);
-				
-				System.out.println("Kaufvertrag mit der ID "+k.getId()+" wurde erzeugt.");
 			}
 		}
 	}

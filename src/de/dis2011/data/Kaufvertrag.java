@@ -8,7 +8,7 @@ import de.dis2011.util.Helper;
 public class Kaufvertrag extends Vertrag {
 	private int anzahlRaten;
 	private int ratenzins;
-	private Haus haus;
+//	private Haus haus;
 	
 	public Kaufvertrag() {
 		super();
@@ -27,13 +27,13 @@ public class Kaufvertrag extends Vertrag {
 		this.ratenzins = ratenzins;
 	}
 	
-	public Haus getHaus() {
-		return haus;
-	}
-
-	public void setHaus(Haus haus) {
-		this.haus = haus;
-	}
+//	public Haus getHaus() {
+//		return haus;
+//	}
+//
+//	public void setHaus(Haus haus) {
+//		this.haus = haus;
+//	}
 
 	public int hashCode() {
 		final int prime = 31;

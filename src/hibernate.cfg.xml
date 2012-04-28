@@ -13,13 +13,15 @@
 		<property name="dialect">org.hibernate.dialect.DB2Dialect</property>
 		<property name="current_session_context_class">thread</property>
 		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
-		<property name="show_sql">true</property>
+		<property name="show_sql">false</property> <!-- true -->
 
 		<!-- Drop and re-create the database schema on startup -->
-		<property name="hbm2ddl.auto">create</property>
+		<property name="hbm2ddl.auto">update</property>  <!--create  -->
 
 		<mapping resource="de/dis2011/data/mapping/Person.hbm.xml" />
 		<mapping resource="de/dis2011/data/mapping/Makler.hbm.xml" />
 		<mapping resource="de/dis2011/data/mapping/Immobilie.hbm.xml" />
+		<mapping resource="de/dis2011/data/mapping/Vertrag.hbm.xml" />
+		
 	</session-factory>
 </hibernate-configuration>

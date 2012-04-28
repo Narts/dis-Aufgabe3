@@ -7,29 +7,29 @@
 		<id name="vertragsnummer" column="vertragnr">
 			<generator class="native" />
 		</id>
-	    <property name="personId" type="integer" column="perid" />
-	    <property name="immobId" type="integer" column="immobId" />
-		<property name="datum" type="Date" column="datum" />  <!-- hibernate Date type -->
+		<property name="datum" type="java.util.Date" column="datum" />           <!-- hibernate Date type -->
 		<property name="ort" type="string" column="ort" />
+		<property name="personId" type="integer" column="personId" not-null="true" />           <!-- hibernate Date type -->
+		<property name="immobId" type="integer" column="immobId" unique="true" not-null="true" />
 		
-		<one-to-one name="personId" class="de.dis2011.data.Person" column="personId" />
-		<one-to-one name="immobId" class="de.dis2011.data.Immobilie" column="immobId" />
+		<!-- <one-to-one name="verwalter" class="de.dis2011.data.Makler" column="maklerid" /> -->
 		
-		
-		<joined-subclass name="de.dis2011.data.Haus" table="Haus">    <!-- haeuser zu Haus geandert --> 
-			<key column="hausID"/>
-			<property name="stockwerke" type="integer" column="stockwerk" />
-			<property name="kaufpreis" type="integer" column="kaufpreis" />
-			<property name="garten" type="boolean" column="garten" />
+		<joined-subclass name="de.dis2011.data.Kaufvertrag" table="Kaufvertrag">    <!-- haeuser zu Haus geandert --> 
+			<key column="kaufnr"/>
+			<property name="anzahlRaten" type="integer" column="anzahlraten" />
+			<property name="ratenzins" type="integer" column="ratenzins" />
+			
+			<!--  <property name="haus" type="Haus" column="ratenzins" /> -->
+			
 		</joined-subclass>
 		
-		<joined-subclass name="de.dis2011.data.Wohnung" table="Wohnung">  
-			<key column="wohnungID"/>
-			<property name="stockwerk" type="integer" column="stockwerk" />
-			<property name="mietpreis" type="integer" column="mietpreis" />
-			<property name="zimmer" type="integer" column="zimmer" />
-			<property name="balkon" type="boolean" column="balkon" />
-			<property name="ebk" type="boolean" column="ebk" />
+		<joined-subclass name="de.dis2011.data.Mietvertrag" table="Mietvertrag">  
+			<key column="mietnr"/>
+			<property name="mietbeginn" type="java.util.Date" column="mietbeginn" />
+			<property name="dauer" type="integer" column="dauer" />
+			<property name="nebenkosten" type="integer" column="nebenkosten" />
+			
+			
 		</joined-subclass>
 	</class>
 </hibernate-mapping>

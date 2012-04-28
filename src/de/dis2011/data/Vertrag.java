@@ -15,13 +15,16 @@ public abstract class Vertrag {
 	private String ort;
 	static int currentId = 0;
 	
-	int id;
-	Person vertragspartner;
+//	int id;
+//	Person vertragspartner;
+	
+//	public Vertrag() {
+//		this.id = currentId++;
+//	}
 	
 	public Vertrag() {
-		this.id = currentId++;
-	}
-	
+	    this.vertragsnummer = currentId++;
+    }
 	
 	public int getVertragsnummer() {
 		return vertragsnummer;
@@ -42,21 +45,21 @@ public abstract class Vertrag {
 		this.ort = ort;
 	}
 	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Person getVertragspartner() {
-		return vertragspartner;
-	}
-
-	public void setVertragspartner(Person vertragspartner) {
-		this.vertragspartner = vertragspartner;
-	}
+//	public int getId() {
+//		return id;
+//	}
+//
+//	public void setId(int id) {
+//		this.id = id;
+//	}
+//
+//	public Person getVertragspartner() {
+//		return vertragspartner;
+//	}
+//
+//	public void setVertragspartner(Person vertragspartner) {
+//		this.vertragspartner = vertragspartner;
+//	}
 
 	/**
 	 * @return the personId

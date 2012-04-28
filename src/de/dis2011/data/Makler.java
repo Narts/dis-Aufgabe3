@@ -17,6 +17,7 @@ public class Makler {
 	private Set<Immobilie> immobilien;
 	
 	public Makler() {
+		this.id = currentId++;
 	}
 	
 	public int getId() {

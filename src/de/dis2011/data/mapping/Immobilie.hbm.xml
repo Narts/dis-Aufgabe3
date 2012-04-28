@@ -4,7 +4,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="de.dis2011.data.Immobilie" table = "IMMOBILIE" >  <!-- nicht abstrakt bei unsere Datenbank -->
-		<id name="id" column="immobid">
+		<id name="id" type="integer" column="immobid">
 			<generator class="native" />
 		</id>
 		<property name="ort" type="string" column="ort" />

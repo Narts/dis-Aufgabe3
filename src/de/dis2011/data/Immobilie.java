@@ -6,7 +6,7 @@ import de.dis2011.util.Helper;
  * Immobilien-Bean
  */
 public abstract class Immobilie {
-	private int id = -1;
+	private int id ;
 	private String ort;
 	private int plz;
 	private String strasse;
@@ -16,7 +16,7 @@ public abstract class Immobilie {
 	static int currentId = 0;
 	
 	public Immobilie() {
-		this.id = currentId++;
+		//this.id = currentId++;
 	}
 	
 	public int getId() {
